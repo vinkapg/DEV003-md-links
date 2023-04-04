@@ -1,0 +1,2 @@
+Hola, ahora estas dentro de
+prueba2.txt, lo cual es un archivo de texto
