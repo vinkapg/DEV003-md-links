@@ -1,7 +1,8 @@
-const {readMdFile, pathAbsolut} = require('./auxiliares.js')
+const {readMdFile, pathAbsolut, pathExist} = require('./auxiliares.js')
 
 console.log(readMdFile);
 console.log(pathAbsolut);
+console.log(pathExist);
 
 const mdLinks = () => {
   return new Promise((resolve, reject) => {
