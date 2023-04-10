@@ -4,55 +4,100 @@ const path = require('node:path');
 // ¿Existe una ruta? -- fs.access(path[, mode], callback)
 const pathExist = (path) => {
   fs.access(path, fs.constants.F_OK, (err) => {
-  console.log('\n> Checking if the file exists');
   if (err) {
-    console.error('File does not exist');
+    // console.error('File does not exist');
+    return false
   }
   else {
-    console.log('File does exist');
+    // console.log('File does exist');
+    return true
   }
   });
 }
-pathExist('./files/prueba2.txt')
+pathExist('./README.md')
 
 // ¿Es una ruta absoluta?
 const pathAbsolut = (route) =>{
   return path.isAbsolute(route)
 } 
+// console.log(pathAbsolut('./README.md'));
+
+//convertir ruta relativa en absoluta
+const transformAbsolute = (route) => {
+  return path.resolve(route) //path.resolve([...path])
+}
+console.log(transformAbsolute('./README.md'));
+
 
 // ¿Es un archivo MD?
-// const fileExt = (route) => {return path.extname(route)}
 const fileExt = (route) => {
   if(path.extname(route) === '.md'){
-    console.log(route)
+    // console.log(route)
+    return true
   }else{
-    console.log('no es archivo md')
+    // console.log('no es archivo md')
+    return false
   }
 }
-fileExt('./files/prueba2.txt')
+fileExt('./README.md')
 
 // función para leer archivo MD
 const readMdFile = (path) => {
-  fs.readFile(path, 'utf-8', (error, archivo) =>{
-    if(error){
-      throw error;
-    }
-    console.log(archivo);
-    return archivo;
-  });
+  return new Promise ((resolve, reject) => {
+    fs.readFile(path, 'utf-8', (error, archivo) =>{
+      if(error){
+        reject(error)
+      }//debe devolver una promesa 
+      // console.log(archivo);
+      resolve(archivo)
+    });
+  })  
 }
+readMdFile('./files/prueba.md').then((result) => {
+ console.log(result)
+}).catch((error) =>{
+  console.log(error)
+})
 
-readMdFile('./files/prueba2.txt');
+//el archivo tiene links? o existe URL
+const fileLinks = (fileContent, filePath) => {
+  // console.log('Holaaa, estoy aca',fileContent)
+ let expReg = /\[([^\]]+)\]\((http[s]?:\/\/[^\)]+)\)/g;
+ let url = /\(([^)]+)\)/; // va a sacar solo lo que este entre ()
+ let corchetes = /\[(.*?)\]/;
+ let datosLinks = Array.from(fileContent.match(expReg), (links) => {
+  return {
+    href: links.match(url)[1],
+    text: links.match(corchetes)[1],
+    file: filePath,
+  }
+ })
+ console.log(datosLinks)
+}
+readMdFile('./files/prueba.md').then((result) => {
+  fileLinks(result, './files/prueba.md')
+});
 
-//el archivo tiene links? 
 
-//extraer link
+
+//extraer link-URL 
+
+
 
 //validar link con fetch --> hacer peticiones http
+// fetch("http://example.com/api/endpoint")
+//   .then((response) => {
+//     // Do something with response
+//   })
+//   .catch(function (err) {
+//     console.log("Unable to fetch -", err);
+//   });
 
 module.exports = {
   pathExist,
   pathAbsolut,
+  transformAbsolute,
   fileExt,
-  readMdFile
+  readMdFile,
+  fileLinks
 };
