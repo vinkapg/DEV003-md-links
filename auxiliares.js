@@ -66,7 +66,7 @@ const fileLinks = (fileContent, filePath) => {
  let url = /\(([^)]+)\)/; // va a sacar solo lo que este entre ()
  let corchetes = /\[(.*?)\]/;
  let datosLinks = Array.from(fileContent.match(expReg), (links) => {
-  return {
+  return {//extraer link-URL 
     href: links.match(url)[1],
     text: links.match(corchetes)[1],
     file: filePath,
@@ -78,20 +78,21 @@ readMdFile('./files/prueba.md').then((result) => {
   fileLinks(result, './files/prueba.md')
 });
 
-
-
-//extraer link-URL 
-
-
-
 //validar link con fetch --> hacer peticiones http
-// fetch("http://example.com/api/endpoint")
-//   .then((response) => {
-//     // Do something with response
-//   })
-//   .catch(function (err) {
-//     console.log("Unable to fetch -", err);
-//   });
+const validateLinks = (url) => {
+  return new Promise (url.map((link) => {
+    fetch(url)
+    .then((response) => {
+      console.log(response)
+    })
+    .catch(function (err) {
+      console.log("Unable to fetch -", err);
+    });
+  }))
+}
+
+// validateLinks(fileLinks.datosLinks.href);
+
 
 module.exports = {
   pathExist,
