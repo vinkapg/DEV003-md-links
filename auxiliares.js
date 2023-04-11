@@ -62,7 +62,7 @@ readMdFile('./files/prueba.md').then((result) => {
 //el archivo tiene links? o existe URL
 const fileLinks = (fileContent, filePath) => {
   // console.log('Holaaa, estoy aca',fileContent)
- let expReg = /\[([^\]]+)\]\((http[s]?:\/\/[^\)]+)\)/g;
+ let expReg = /\[([^\]]+)\]\((http[s]?:\/\/[^\)]+)\)/g; //saca links de archivo
  let url = /\(([^)]+)\)/; // va a sacar solo lo que este entre ()
  let corchetes = /\[(.*?)\]/;
  let datosLinks = Array.from(fileContent.match(expReg), (links) => {
@@ -72,26 +72,42 @@ const fileLinks = (fileContent, filePath) => {
     file: filePath,
   }
  })
- console.log(datosLinks)
+  return datosLinks
 }
 readMdFile('./files/prueba.md').then((result) => {
   fileLinks(result, './files/prueba.md')
 });
 
 //validar link con fetch --> hacer peticiones http
-const validateLinks = (url) => {
-  return new Promise (url.map((link) => {
-    fetch(url)
+const validateLinks = (arrayDatosLinks) => {
+  let mapearDatos = arrayDatosLinks.map(objetos => { 
+    return fetch(objetos.href)
     .then((response) => {
-      console.log(response)
+      return {
+        href: objetos.href,
+        text: objetos.text,
+        file: objetos.file,
+        status: response.status,
+        ok: response.statusText,
+      }
     })
-    .catch(function (err) {
-      console.log("Unable to fetch -", err);
-    });
-  }))
+    .catch((err) => {
+      return {
+        href: objetos.href,
+        text: objetos.text,
+        file: objetos.file,
+        status: err.response.status,
+        ok: err.response.statusText,
+      }
+  });
+  })
+  return Promise.all(mapearDatos) // se aplica promise.all para que la promesa salga de estado pendiente
 }
+readMdFile('./files/prueba.md').then((result) => {
+  validateLinks(fileLinks(result, './files/prueba.md')).then(console.log)
+})
+//revisar porque no revisa los link dañados. 
 
-// validateLinks(fileLinks.datosLinks.href);
 
 
 module.exports = {
@@ -100,5 +116,6 @@ module.exports = {
   transformAbsolute,
   fileExt,
   readMdFile,
-  fileLinks
+  fileLinks,
+  validateLinks
 };
