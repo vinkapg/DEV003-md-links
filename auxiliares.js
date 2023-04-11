@@ -92,12 +92,13 @@ const validateLinks = (arrayDatosLinks) => {
       }
     })
     .catch((err) => {
+      console.log('hola estoy aquíii',err)
       return {
         href: objetos.href,
         text: objetos.text,
         file: objetos.file,
-        status: err.response.status,
-        ok: err.response.statusText,
+        status: err.message,
+        ok: 'fail',
       }
   });
   })
