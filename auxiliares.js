@@ -18,16 +18,24 @@ pathExist('./README.md')
 
 // ¿Es una ruta absoluta?
 const pathAbsolut = (route) =>{
-  return path.isAbsolute(route)
-} 
+ return path.isAbsolute(route)
+}
 // console.log(pathAbsolut('./README.md'));
 
 //convertir ruta relativa en absoluta
 const transformAbsolute = (route) => {
   return path.resolve(route) //path.resolve([...path])
 }
-console.log(transformAbsolute('./README.md'));
+// console.log(transformAbsolute('./README.md'));
 
+//ruta abs y transf relativa en abs en una fx
+const isAbsOrRel = (route) =>{
+  if (path.isAbsolute(route)){
+   return route
+  }else{
+   return path.resolve(route)
+  }
+ }
 
 // ¿Es un archivo MD?
 const fileExt = (route) => {
@@ -113,8 +121,7 @@ readMdFile('./files/prueba.md').then((result) => {
 
 module.exports = {
   pathExist,
-  pathAbsolut,
-  transformAbsolute,
+  isAbsOrRel,
   fileExt,
   readMdFile,
   fileLinks,
