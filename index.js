@@ -1,6 +1,5 @@
 const {readMdFile, isAbsOrRel, pathExist, fileExt, fileLinks, validateLinks} = require('./auxiliares.js')
 
-
 const mdLinks = (path, options) => {
   return new Promise((resolve, reject) => {
     // console.log(!pathExist(path))
