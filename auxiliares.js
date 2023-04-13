@@ -2,19 +2,33 @@ const fs = require('fs');
 const path = require('node:path');
 
 // ¿Existe una ruta? -- fs.access(path[, mode], callback)
+// const pathExist = (path) => {
+//   return new Promise ((resolve, reject) => {
+//     fs.access(path, fs.constants.F_OK, (err) => {
+//       if (err) {
+//         // console.error('File does not exist');
+//         reject(err)
+//       }        // console.log('File does exist');
+//         resolve(path)
+//       });
+//   })
+// }
+// pathExist('./file/prueba.md').then((result) => {
+//   console.log(result)
+// }).catch((error) => {
+//   console.log(error)
+// })
+// console.log(pathExist('./files/prueba.md').then((result) => {
+//   console.log(result)
+// }).catch((error) => {
+//   console.log(error)
+// }))
+
+//¿Existe ruta? metodo sincrono
 const pathExist = (path) => {
-  fs.access(path, fs.constants.F_OK, (err) => {
-  if (err) {
-    // console.error('File does not exist');
-    return false
-  }
-  else {
-    // console.log('File does exist');
-    return true
-  }
-  });
+  return fs.existsSync(path)
 }
-pathExist('./README.md')
+// console.log(pathExistTwo('./files/prueba.md'))
 
 // ¿Es una ruta absoluta?
 const pathAbsolut = (route) =>{
@@ -47,7 +61,7 @@ const fileExt = (route) => {
     return false
   }
 }
-fileExt('./README.md')
+// fileExt('./README.md')
 
 // función para leer archivo MD
 const readMdFile = (path) => {
@@ -61,11 +75,11 @@ const readMdFile = (path) => {
     });
   })  
 }
-readMdFile('./files/prueba.md').then((result) => {
- console.log(result)
-}).catch((error) =>{
-  console.log(error)
-})
+// readMdFile('./files/prueba.md').then((result) => {
+//  console.log(result)
+// }).catch((error) =>{
+//   console.log(error)
+// })
 
 //el archivo tiene links? o existe URL
 const fileLinks = (fileContent, filePath) => {
@@ -82,9 +96,9 @@ const fileLinks = (fileContent, filePath) => {
  })
   return datosLinks
 }
-readMdFile('./files/prueba.md').then((result) => {
-  fileLinks(result, './files/prueba.md')
-});
+// readMdFile('./files/prueba.md').then((result) => {
+//   fileLinks(result, './files/prueba.md')
+// });
 
 //validar link con fetch --> hacer peticiones http
 const validateLinks = (arrayDatosLinks) => {
@@ -100,7 +114,7 @@ const validateLinks = (arrayDatosLinks) => {
       }
     })
     .catch((err) => {
-      console.log('hola estoy aquíii',err)
+      // console.log('hola estoy aquíii',err)
       return {
         href: objetos.href,
         text: objetos.text,
@@ -112,9 +126,9 @@ const validateLinks = (arrayDatosLinks) => {
   })
   return Promise.all(mapearDatos) // se aplica promise.all para que la promesa salga de estado pendiente
 }
-readMdFile('./files/prueba.md').then((result) => {
-  validateLinks(fileLinks(result, './files/prueba.md')).then(console.log)
-})
+// readMdFile('./files/prueba.md').then((result) => {
+//   validateLinks(fileLinks(result, './files/prueba.md')).then(console.log)
+// })
 //revisar porque no revisa los link dañados. 
 
 
