@@ -10,7 +10,8 @@ const mdLinks = (path, options) => {
     let pathAbs = isAbsOrRel(path)
     // console.log(!fileExt(pathAbs))
     if(!fileExt(pathAbs)){
-      reject('No es archivo MD')
+      // console.log('no es un archivo MD')
+      reject('No es un archivo MD')
       return
     }
     // console.log(readMdFile(pathAbs))
@@ -22,7 +23,7 @@ const mdLinks = (path, options) => {
           resolve(links)
         }else{
           // console.log('hola soy else')
-          validateLinks(links)
+          resolve(validateLinks(links))
           }
      }).catch((error) =>{
        reject(error, 'esto es un error tierno')
@@ -40,4 +41,8 @@ const mdLinks = (path, options) => {
   });
 };
 
-mdLinks('./files/prueba.md', {validate: false}).then(console.log).catch(console.log)
+mdLinks('./files/prueba.md', {validate:true}).then(console.log).catch(console.log)
+
+module.exports = {
+mdLinks
+};
