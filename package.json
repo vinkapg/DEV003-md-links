@@ -14,5 +14,12 @@
   },
   "devDependencies": {
     "jest": "^29.5.0"
+  },
+  "dependencies": {
+    "colors": "^1.4.0",
+    "lodash": "^4.17.21"
+  },
+  "bin":{
+    "say-hello": "./cli.js"
   }
 }
