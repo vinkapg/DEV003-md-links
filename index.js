@@ -28,17 +28,11 @@ const mdLinks = (path, options) => {
      }).catch((error) =>{
        reject(error, 'esto es un error tierno')
      })
-    // let leerLinks = readMdFile(pathAbs).then().catch()
-    // let revisarLink = fileLinks(leerLinks)
-    // let validarLinks = validateLinks(revisarLink)
-
-    // averiguar en que caso no se validan links 
-
-
-  // return 'tienes un error'
-//si se resuelve, devuelve un array con objetos de links
-
   });
 };
 
 mdLinks('./files/prueba.md', {validate:true}).then(console.log).catch(console.log)
+
+module.exports = {
+  mdLinks
+};
