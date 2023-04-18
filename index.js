@@ -16,7 +16,7 @@ const mdLinks = (path, options) => {
     }
     // console.log(readMdFile(pathAbs))
     readMdFile(pathAbs).then((result) => {
-      console.log('soy readMdFile')
+      // console.log('soy readMdFile')
       const links = fileLinks(result,'./files/prueba.md')
         if(!options.validate){
           // console.log('soy de false')
@@ -31,7 +31,7 @@ const mdLinks = (path, options) => {
   });
 };
 
-mdLinks('./files/prueba.md', {validate:true}).then(console.log).catch(console.log)
+// mdLinks('./files/prueba.md', {validate:true}).then(console.log).catch(console.log)
 
 module.exports = {
   mdLinks

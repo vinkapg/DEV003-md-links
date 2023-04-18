@@ -1,7 +1,7 @@
 #!/usr/bin/env nodo 
 //linea 1 se agrega para que nuestro archivo JavaScript sea ejecutable por node
 const { mdLinks } = require('./index.js');
-const { allLinks, uniqueLinks, brokenLinks } = require('./functions-cli.js');
+const {allLinks, uniqueLinks, brokenLinks} = require('./functionsCli.js');
 const path = process.argv[2];
 // const colors = require('colors');
 const validate = process.argv.includes('--validate')|| process.argv.includes('--v');
@@ -12,12 +12,12 @@ const options = { validate, stats };
 mdLinks(path, options)
 .then((result) => {
     if(stats && validate){
-        console.log('Total:', functions-cli.allLinks(result))
-        console.log('Unique:', functions-cli.uniqueLinks(result))
-        console.log('Broken:', functions-cli.brokenLinks(result))
+        console.log('Total:', allLinks(result))
+        console.log('Unique:', uniqueLinks(result))
+        console.log('Broken:', brokenLinks(result))
     }else if(stats){
-        console.log('Total:', functions-cli.allLinks(result))
-        console.log('Unique:', functions-cli.uniqueLinks(result))
+        console.log('Total:', allLinks(result))
+        console.log('Unique:', uniqueLinks(result))
     }else if(validate){
         result.forEach(links => {
             console.log('href:', links.href)
@@ -36,12 +36,3 @@ mdLinks(path, options)
 }).catch((error) => {
     console.log(error)
 })
-
-
-
-
-
-
-
-// const args = process.argv.slice(2);
-// console.log('args: ', args);
